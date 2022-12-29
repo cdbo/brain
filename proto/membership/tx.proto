@@ -7,7 +7,18 @@ option go_package = "github.com/cdbo/brain/x/membership/types";
 
 // Msg defines the Msg service.
 service Msg {
-    // this line is used by starport scaffolding # proto/tx/rpc
+      rpc AddMember(MsgAddMember) returns (MsgAddMemberResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
+}
+
+message MsgAddMember {
+  string creator = 1;
+  string address = 2;
+  string nickname = 3;
+  string status = 4;
+}
+
+message MsgAddMemberResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message
