@@ -1,24 +1,45 @@
 syntax = "proto3";
 package cdbo.brain.membership;
 
+import "gogoproto/gogo.proto";
+
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "github.com/cdbo/brain/x/membership/types";
 
-// Msg defines the Msg service.
-service Msg {
-      rpc AddMember(MsgAddMember) returns (MsgAddMemberResponse);
-// this line is used by starport scaffolding # proto/tx/rpc
+// MembershipStatus enumerates the valid membership states for a citizen of The
+// Denom
+enum MembershipStatus {
+  // MEMBERSHIP_STATUS_UNDEFINED defines a no-op status
+  MEMBERSHIP_STATUS_UNDEFINED = 0
+      [ (gogoproto.enumvalue_customname) = "MemberStatusEmpty" ];
+  // MEMBERSHIP_STATUS_ELECTORATE defines this member as being an active citizen
+  MEMBERSHIP_STATUS_ELECTORATE = 1
+      [ (gogoproto.enumvalue_customname) = "MemberElectorate" ];
+  // MEMBERSHIP_STATUS_INACTIVE defines this member as being an inactive citizen
+  MEMBERSHIP_STATUS_INACTIVE = 2
+      [ (gogoproto.enumvalue_customname) = "MemberInactive" ];
+  // MEMBERSHIP_STATUS_RECALLED defines this member as being recalled
+  MEMBERSHIP_STATUS_RECALLED = 3
+      [ (gogoproto.enumvalue_customname) = "MemberRecalled" ];
+  // MEMBERSHIP_STATUS_EXPULSED defines this member as being expulsed
+  MEMBERSHIP_STATUS_EXPULSED = 4
+      [ (gogoproto.enumvalue_customname) = "MemberExpulsed" ];
 }
 
+// Msg defines the membership Msg service.
+service Msg {
+  // AddMember defines a method for the caller to add a member.
+  rpc AddMember(MsgAddMember) returns (MsgAddMemberResponse);
+  // this line is used by starport scaffolding # proto/tx/rpc
+}
+// MsgAddMember defines a message for adding a member
 message MsgAddMember {
   string creator = 1;
-  string address = 2;
+  string member = 2;
   string nickname = 3;
-  string status = 4;
 }
 
-message MsgAddMemberResponse {
-}
+message MsgAddMemberResponse {}
 
 // this line is used by starport scaffolding # proto/tx/message
